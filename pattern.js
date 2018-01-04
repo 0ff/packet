@@ -20,7 +20,15 @@ function error (message, pattern, index) {
 
 var BASE = { "0x": 16, "0": 8 };
 
-var re = {};
+var re = {
+  number: new RegExp(/^(\s*(?:(\&?)0x([0-9a-f]+)|(\d+))(-)?)(.*)$/),
+  pack: new RegExp(/^(-?)([xb])(\d+)()(\s*(?:,|=>|{\d).*|)(.*)$/),
+  terminator: new RegExp(/^(\s*)(?:0x([A-F-a-f00-9]{2})|(\d+))(\s*)([,>])(.*)$/),
+  scalar: new RegExp(/('(?:[^\\']|\\.)+'|"(?:[^\\"]|\\.)+"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)(\s*,\s*|\s*\))?(.*)/)
+};
+
+/*
+// instead of compiling the RegExps during runtime (by parsing this files content), pre-compile them and insert above
 
 function compileRegularExpressions() {
   var name, $, lines, i, I, source;
@@ -40,6 +48,7 @@ function compileRegularExpressions() {
 }
 
 compileRegularExpressions();
+*/
 
 // Extract an alternation range number or bit mask from at the current pattern
 // substring given by `rest`.
